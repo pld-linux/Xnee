@@ -10,6 +10,7 @@ Source0:	ftp://ftp.gnu.org/gnu/xnee/%{name}-%{version}.tar.gz
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/xnee/
 BuildRequires:	XFree86-devel
+BuildRequires:	texinfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
