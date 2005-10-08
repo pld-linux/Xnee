@@ -1,16 +1,34 @@
+# TODO:
+# - rename spec xnee.spec -> Xnee.spec
+# - separate subpackages: libs, tools
+# - generate docs - deps are crazy...
 Summary:	Suite of programs that can record and replay user actions under X11
 Summary(pl):	Zestaw programów do nagrywania i odtwarzania akcji u¿ytkownika pod X11
-Name:		xnee
-Version:	1.08
-Release:	1
-License:	GPL
+Name:		Xnee
+Version:	2.01
+Release:	0.1
+License:	GPL v2
 Group:		X11/Applications
 Source0:	ftp://ftp.gnu.org/gnu/xnee/%{name}-%{version}.tar.gz
-# Source0-md5:	cef82f631d06d6091ecb90436efa0e69
+# Source0-md5:	c22cb4ce520bdf27867b823e57b6e7da
 Patch0:		%{name}-info.patch
-URL:		http://www.gnu.org/software/xnee/
+URL:		http://www.gnu.org/software/xnee/www/index.html
 BuildRequires:	XFree86-devel
-BuildRequires:	texinfo
+BuildRequires:	gtk+2-devel
+BuildRequires:	pkg-config > 0.9.0
+# needed for docs only :-/ :
+#BuildRequires:	ImageMagick
+#BuildRequires:	ImageMagick-coder-jpeg
+#BuildRequires:	ImageMagick-coder-png
+#BuildRequires:	dia
+#BuildRequires:	ghostscript
+#BuildRequires:	tetex-dvips
+#BuildRequires:	tetex-format-plain
+#BuildRequires:	tetex-tex-misc
+#BuildRequires:	texinfo
+#BuildRequires:	texinfo-texi2dvi
+Obsoletes:	xnee
+Provides:	xnee
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -33,7 +51,10 @@ plików itp.
 %patch0 -p1
 
 %build
-%configure
+%configure \
+	--enable-xosd \
+	--disable-doc
+
 %{__make} \
 	GPROF_FLAG="%{rpmcflags}"
 
@@ -43,7 +64,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -D xnee/doc/xnee.1 $RPM_BUILD_ROOT%{_mandir}/man1/xnee.1
+#install -D xnee/doc/xnee.1 $RPM_BUILD_ROOT%{_mandir}/man1/xnee.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -56,7 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS BUGS ChangeLog EXAMPLES NEWS TODO USAGE
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man1/xnee.1*
-%{_infodir}/xnee.info*
+%doc AUTHORS BUGS ChangeLog EXAMPLES NEWS TODO
+%attr(755,root,root) %{_bindir}/cnee
+%attr(755,root,root) %{_bindir}/gnee
+%{_libdir}/libxnee.a
+#%{_mandir}/man1/xnee.1*
+#%{_infodir}/xnee.info*
