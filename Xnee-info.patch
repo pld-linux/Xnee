@@ -1,0 +1,14 @@
+--- Xnee-2.01/doc/xnee.texi.orig	2003-10-03 00:21:13.000000000 +0200
++++ Xnee-2.01/doc/xnee.texi	2003-12-30 18:31:50.277270512 +0100
+@@ -10,9 +10,9 @@
+ @include version.texi
+ 
+ 
+-@dircategory Miscellaneous
++@dircategory Miscellaneous:
+ @direntry
+-@ * : (Xnee).        Xnee's Not Event Emulator.
++* Xnee: (Xnee).				Xnee's Not Event Emulator
+ @end direntry
+ 
+ 
