@@ -3,7 +3,7 @@
 # - separate subpackages: libs, tools
 # - generate docs - deps are crazy...
 Summary:	Suite of programs that can record and replay user actions under X11
-Summary(pl.UTF-8):   Zestaw programów do nagrywania i odtwarzania akcji użytkownika pod X11
+Summary(pl.UTF-8):	Zestaw programów do nagrywania i odtwarzania akcji użytkownika pod X11
 Name:		Xnee
 Version:	2.01
 Release:	0.1
