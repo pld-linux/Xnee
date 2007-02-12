@@ -3,7 +3,7 @@
 # - separate subpackages: libs, tools
 # - generate docs - deps are crazy...
 Summary:	Suite of programs that can record and replay user actions under X11
-Summary(pl):	Zestaw programów do nagrywania i odtwarzania akcji u¿ytkownika pod X11
+Summary(pl.UTF-8):   Zestaw programÃ³w do nagrywania i odtwarzania akcji uÅ¼ytkownika pod X11
 Name:		Xnee
 Version:	2.01
 Release:	0.1
@@ -38,13 +38,13 @@ can imitate the job you just did. Xnee can be used to: automate tests,
 demonstrate programs, distribute actions, record and replay "macros",
 retype a file etc.
 
-%description -l pl
-Xnee to zestaw programów do nagrywania, odtwarzania i powielania akcji
-u¿ytkownika w ¶rodowisku X11. Mo¿na je okre¶liæ jako maszynê
-powtarzaj±c± pracê wykonan± przez nas. Xnee mo¿na u¿yæ do:
-automatyzowania testów, demonstrowania programów, powielania akcji (na
+%description -l pl.UTF-8
+Xnee to zestaw programÃ³w do nagrywania, odtwarzania i powielania akcji
+uÅ¼ytkownika w Å›rodowisku X11. MoÅ¼na je okreÅ›liÄ‡ jako maszynÄ™
+powtarzajÄ…cÄ… pracÄ™ wykonanÄ… przez nas. Xnee moÅ¼na uÅ¼yÄ‡ do:
+automatyzowania testÃ³w, demonstrowania programÃ³w, powielania akcji (na
 wielu komputerach), nagrywania i odtwarzania "makr", przepisywania
-plików itp.
+plikÃ³w itp.
 
 %prep
 %setup -q
