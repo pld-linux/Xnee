@@ -1,5 +1,4 @@
 # TODO:
-# - rename spec xnee.spec -> Xnee.spec
 # - separate subpackages: libs, tools
 # - generate docs - deps are crazy...
 Summary:	Suite of programs that can record and replay user actions under X11
