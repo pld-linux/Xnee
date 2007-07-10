@@ -1,20 +1,22 @@
 # TODO:
+# - patch for makefile - add DESTDIR
 # - separate subpackages: libs, tools
 # - generate docs - deps are crazy...
 Summary:	Suite of programs that can record and replay user actions under X11
 Summary(pl.UTF-8):	Zestaw programów do nagrywania i odtwarzania akcji użytkownika pod X11
 Name:		Xnee
-Version:	2.01
+Version:	3.01
 Release:	0.1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	ftp://ftp.gnu.org/gnu/xnee/%{name}-%{version}.tar.gz
-# Source0-md5:	c22cb4ce520bdf27867b823e57b6e7da
+# Source0-md5:	a6e1e797170317a7454723a7cd7b3c58
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/xnee/www/index.html
-BuildRequires:	XFree86-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	pkg-config > 0.9.0
+BuildRequires:	xorg-proto-recordproto-devel
+BuildRequires:	xorg-lib-libXtst-devel
 # needed for docs only :-/ :
 #BuildRequires:	ImageMagick
 #BuildRequires:	ImageMagick-coder-jpeg
@@ -47,7 +49,7 @@ plików itp.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 
 %build
 %configure \
@@ -61,7 +63,7 @@ plików itp.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT 
 
 #install -D xnee/doc/xnee.1 $RPM_BUILD_ROOT%{_mandir}/man1/xnee.1
 
