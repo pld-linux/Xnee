@@ -98,7 +98,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	CNEE_INFO="cnee.info"
+	CNEE_INFO="cnee.info" \
+	PANEL_APPLET_DIR=$RPM_BUILD_ROOT%{_bindir} \
+	PANEL_SERVER_DIR=$RPM_BUILD_ROOT%{_libdir}/bonobo/servers
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -132,7 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with gnome}
 %files gnome
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/gnome-panel/pnee
+%attr(755,root,root) %{_bindir}/pnee
 %{_libdir}/bonobo/servers/pnee.server
 %{_datadir}/xnee/pixmaps/pnee-*.png
 %{_mandir}/man1/pnee.1*
