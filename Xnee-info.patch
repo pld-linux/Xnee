@@ -1,14 +1,14 @@
---- Xnee-2.01/doc/xnee.texi.orig	2003-10-03 00:21:13.000000000 +0200
-+++ Xnee-2.01/doc/xnee.texi	2003-12-30 18:31:50.277270512 +0100
-@@ -10,9 +10,9 @@
- @include version.texi
+--- Xnee-3.01/cnee/src/cnee_printer.c.orig	2007-06-28 12:16:09.000000000 +0200
++++ Xnee-3.01/cnee/src/cnee_printer.c	2007-07-14 21:01:06.369193162 +0200
+@@ -400,7 +400,10 @@
+   fprintf (fd ,"@setchapternewpage off\n");
+   fprintf (fd ,"@c %%**end o\n");
  
+-
++  fprintf (fd, "@dircategory Miscellaneous:\n");
++  fprintf (fd, "@direntry\n");
++  fprintf (fd, "* Xnee: (cnee).\t\t\t\tXnee's Not Event Emulator\n");
++  fprintf (fd, "@end direntry\n");
  
--@dircategory Miscellaneous
-+@dircategory Miscellaneous:
- @direntry
--@ * : (Xnee).        Xnee's Not Event Emulator.
-+* Xnee: (Xnee).				Xnee's Not Event Emulator
- @end direntry
- 
- 
+   fprintf (fd, "@ifinfo\n");
+   fprintf (fd, "@node Top, Options,, (dir)\n");
