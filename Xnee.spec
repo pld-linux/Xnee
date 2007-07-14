@@ -1,35 +1,44 @@
 # TODO:
-# - patch for makefile - add DESTDIR
-# - separate subpackages: libs, tools
-# - generate docs - deps are crazy...
+# - package libxnee if needed for anything (it's noinst now)
+# - generate docs - (some files are missing)
+#
+# Conditional build:
+%bcond_with	doc	# documentation (broken, missing files)
+%bcond_without	gnome	# GNOME panel applet
+#
 Summary:	Suite of programs that can record and replay user actions under X11
 Summary(pl.UTF-8):	Zestaw programów do nagrywania i odtwarzania akcji użytkownika pod X11
 Name:		Xnee
 Version:	3.01
 Release:	0.1
-License:	GPL v2
+License:	GPL v3+
 Group:		X11/Applications
 Source0:	ftp://ftp.gnu.org/gnu/xnee/%{name}-%{version}.tar.gz
 # Source0-md5:	a6e1e797170317a7454723a7cd7b3c58
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/xnee/www/index.html
-BuildRequires:	gtk+2-devel
-BuildRequires:	pkg-config > 0.9.0
+BuildRequires:	gtk+2-devel >= 1:2.0.0
+BuildRequires:	pkgconfig >= 1:0.9.0
+BuildRequires:	texinfo
 BuildRequires:	xorg-proto-recordproto-devel
 BuildRequires:	xorg-lib-libXtst-devel
-# needed for docs only :-/ :
-#BuildRequires:	ImageMagick
-#BuildRequires:	ImageMagick-coder-jpeg
-#BuildRequires:	ImageMagick-coder-png
-#BuildRequires:	dia
-#BuildRequires:	ghostscript
-#BuildRequires:	tetex-dvips
-#BuildRequires:	tetex-format-plain
-#BuildRequires:	tetex-tex-misc
-#BuildRequires:	texinfo
-#BuildRequires:	texinfo-texi2dvi
-Obsoletes:	xnee
+%if %{with gnome}
+BuildRequires:	GConf2-devel >= 2.0
+BuildRequires:	gnome-panel-devel >= 2.0
+%endif
+%if %{with doc}
+BuildRequires:	ImageMagick
+BuildRequires:	ImageMagick-coder-jpeg
+BuildRequires:	ImageMagick-coder-png
+BuildRequires:	dia
+BuildRequires:	ghostscript
+BuildRequires:	tetex-dvips
+BuildRequires:	tetex-format-plain
+BuildRequires:	tetex-tex-misc
+BuildRequires:	texinfo-texi2dvi
+%endif
 Provides:	xnee
+Obsoletes:	xnee
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -47,25 +56,49 @@ automatyzowania testów, demonstrowania programów, powielania akcji (na
 wielu komputerach), nagrywania i odtwarzania "makr", przepisywania
 plików itp.
 
+%package gtk
+Summary:	gnee - GTK+ based graphical frontent to GNU Xnee
+Summary(pl.UTF-8):	gnee - oparty na GTK+ graficzny interfejs do GNU Xnee
+Group:		X11/Applications
+Requires:	%{name} = %{version}-%{release}
+
+%description gtk
+gnee is the graphical frontend to GNU Xnee, based on GTK+ toolkit.
+
+%description gtk -l pl.UTF-8
+gnee to graficzny interfejs do GNU Xnee, oparty na GTK+.
+
+%package gnome
+Summary:	pnee - GNOME panel applet for GNU Xnee
+Summary(pl.UTF-8):	pnee - aplet panelu GNOME dla GNU Xnee
+Group:		X11/Applications
+Requires:	%{name} = %{version}-%{release}
+
+%description gnome
+pnee is the GNOME panel applet for GNU Xnee.
+
+%description gnome -l pl.UTF-8
+pnee to aplet panelu GNOME dla GNU Xnee.
+
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 
 %build
 %configure \
-	--enable-xosd \
-	--disable-doc
+	--disable-doc \
+	%{!?with_gnome:--disable-gnome-applet} \
+	--enable-xosd
 
 %{__make} \
-	GPROF_FLAG="%{rpmcflags}"
+	CNEE_INFO="cnee.info"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT 
-
-#install -D xnee/doc/xnee.1 $RPM_BUILD_ROOT%{_mandir}/man1/xnee.1
+	DESTDIR=$RPM_BUILD_ROOT \
+	CNEE_INFO="cnee.info"
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -78,9 +111,29 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS BUGS ChangeLog EXAMPLES NEWS TODO
+%doc AUTHORS BUGS ChangeLog FAQ NEWS README TODO
 %attr(755,root,root) %{_bindir}/cnee
+%dir %{_datadir}/xnee
+%{_datadir}/xnee/*.sh
+%{_datadir}/xnee/*.xns
+%dir %{_datadir}/xnee/pixmaps
+%{_datadir}/xnee/pixmaps/xnee.png
+%{_datadir}/xnee/pixmaps/xnee.xpm
+%{_mandir}/man1/cnee.1*
+%{_mandir}/man1/xnee.1*
+%{_infodir}/cnee.info*
+
+%files gtk
+%defattr(644,root,root,755)
+%doc gnee/AUTHORS
 %attr(755,root,root) %{_bindir}/gnee
-%{_libdir}/libxnee.a
-#%{_mandir}/man1/xnee.1*
-#%{_infodir}/xnee.info*
+%{_mandir}/man1/gnee.1*
+
+%if %{with gnome}
+%files gnome
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/gnome-panel/pnee
+%{_libdir}/bonobo/servers/pnee.server
+%{_datadir}/xnee/pixmaps/pnee-*.png
+%{_mandir}/man1/pnee.1*
+%endif
