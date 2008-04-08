@@ -13,7 +13,7 @@ Version:	3.01
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	ftp://ftp.gnu.org/gnu/xnee/%{name}-%{version}.tar.gz
+Source0:	http://ftp.gnu.org/gnu/xnee/%{name}-%{version}.tar.gz
 # Source0-md5:	a6e1e797170317a7454723a7cd7b3c58
 Patch0:		%{name}-info.patch
 URL:		http://www.gnu.org/software/xnee/www/index.html
