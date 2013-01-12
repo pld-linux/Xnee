@@ -1,0 +1,39 @@
+--- xnee-3.15/libxnee/src/Makefile.am.orig	2011-02-22 22:04:38.000000000 +0100
++++ xnee-3.15/libxnee/src/Makefile.am	2013-01-11 20:10:22.041895202 +0100
+@@ -75,13 +75,9 @@
+ libxnee_la_SOURCES = $(LIB_XNEE_SOURCE_FILES)
+ EXTRA_LTLIBRARIES = libxnee.la
+ lib_LTLIBRARIES = $(WANTED_LIBXNEE)
+ libxnee_la_LDFLAGS = -rpath '$(libdir)'
+-#dnl libxnee_la_SOURCES = $(LIB_XNEE_SOURCE_FILES) 
+-libxnee_a_CFLAGS = $(AM_CFLAGS)
+-
+-#noinst_LIBRARIES = libxnee.a 
++libxnee_la_LIBADD = -lXtst -lX11 -ldl
+ 
+-noinst_LTLIBRARIES = $(WANTED_LIBXNEE)
+ 
+ 
+ if VERBOSE
+--- xnee-3.15/libxnee/test/Makefile.am.orig	2009-12-30 17:13:10.000000000 +0100
++++ xnee-3.15/libxnee/test/Makefile.am	2013-01-12 07:42:15.397696600 +0100
+@@ -4,7 +4,7 @@
+ TESTPRINT = testprint
+ TESTDISP = testdisplay
+ TESTCALLBACK = testcallback
+-lib_LTLIBRARIES = libtestcb.la
++noinst_LTLIBRARIES = libtestcb.la
+ 
+ noinst_PROGRAMS = $(LIBTEST) $(TESTSETGET) $(TESTFEEDBACK) $(TESTPRINT) $(TESTDISP) $(TESTCALLBACK)
+ TEST_WRAPPER=./test-wrapper.sh
+@@ -18,8 +18,8 @@
+ endif
+ 
+ AM_CFLAGS = -I../include -I${LIBXNEE_DIR}/include  ${PEDANTIC_FLAGS}  ${X_CFLAGS}  -g ${VERBOSE_FLAG} ${BUF_VERBOSE_FLAG}  ${USER_CFLAGS} ${GCOV_FLAG} ${GPROF_FLAG}
+-AM_LDFLAGS =  -L../src/.libs/  -L${LIBXNEE_DIR}/src -lxnee ${X_LIBS} ${X11_LIBS} ${LIBDL} ${GCOV_FLAG} ${GPROF_FLAG} $(STATIC_FLAGS) 
+-AM_LDADD   =  -L../src/.libs/ -L${LIBXNEE_DIR}/src -lxnee ${X_LIBS} ${X11_LIBS} ${LIBDL} ${GCOV_FLAG} ${GPROF_FLAG} $(STATIC_FLAGS)
++AM_LDFLAGS = ${GCOV_FLAG} ${GPROF_FLAG} $(STATIC_FLAGS) 
++LDADD   = $(top_builddir)/libxnee/src/libxnee.la ${X_LIBS} ${X11_LIBS} ${LIBDL} ${GCOV_FLAG} ${GPROF_FLAG}
+ 
+ 
+ libtest_SOURCES = libtest.c

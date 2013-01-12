@@ -9,18 +9,25 @@
 Summary:	Suite of programs that can record and replay user actions under X11
 Summary(pl.UTF-8):	Zestaw programów do nagrywania i odtwarzania akcji użytkownika pod X11
 Name:		Xnee
-Version:	3.01
+Version:	3.15
 Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://ftp.gnu.org/gnu/xnee/%{name}-%{version}.tar.gz
-# Source0-md5:	a6e1e797170317a7454723a7cd7b3c58
+Source0:	http://ftp.gnu.org/gnu/xnee/xnee-%{version}.tar.gz
+# Source0-md5:	32c8ac9f354741f03d7736383599984e
 Patch0:		%{name}-info.patch
+Patch1:		%{name}-link.patch
+Patch2:		%{name}-am.patch
 URL:		http://www.gnu.org/software/xnee/www/index.html
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	gtk+2-devel >= 1:2.0.0
+BuildRequires:	libtool
 BuildRequires:	pkgconfig >= 1:0.9.0
 BuildRequires:	texinfo
 BuildRequires:	xorg-proto-recordproto-devel
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXi-devel
 BuildRequires:	xorg-lib-libXtst-devel
 %if %{with gnome}
 BuildRequires:	GConf2-devel >= 2.0
@@ -81,13 +88,25 @@ pnee is the GNOME panel applet for GNU Xnee.
 pnee to aplet panelu GNOME dla GNU Xnee.
 
 %prep
-%setup -q
+%setup -q -n xnee-%{version}
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
+%{__libtoolize}
+%{__aclocal}
+%{__autoconf}
+%{__autoheader}
+%{__automake}
+# disable static as no API is installed
 %configure \
 	--disable-doc \
-	%{!?with_gnome:--disable-gnome-applet} \
+	--disable-static \
+	--disable-static-programs \
+	%{?with_gnome:--enable-gnome-applet} \
+	--enable-gui \
+	--enable-lib \
 	--enable-xosd
 
 %{__make} \
@@ -102,25 +121,31 @@ rm -rf $RPM_BUILD_ROOT
 	PANEL_APPLET_DIR=$RPM_BUILD_ROOT%{_bindir} \
 	PANEL_SERVER_DIR=$RPM_BUILD_ROOT%{_libdir}/bonobo/servers
 
+# API not installed
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libxnee.{so,la}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p	/sbin/postshell
+%post	-p /sbin/postshell
+-/sbin/ldconfig
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
-%postun	-p	/sbin/postshell
+%postun	-p /sbin/postshell
+-/sbin/ldconfig
 -/usr/sbin/fix-info-dir -c %{_infodir}
 
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog FAQ NEWS README TODO
 %attr(755,root,root) %{_bindir}/cnee
+%attr(755,root,root) %{_libdir}/libxnee.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libxnee.so.0
 %dir %{_datadir}/xnee
 %{_datadir}/xnee/*.sh
 %{_datadir}/xnee/*.xns
-%dir %{_datadir}/xnee/pixmaps
-%{_datadir}/xnee/pixmaps/xnee.png
-%{_datadir}/xnee/pixmaps/xnee.xpm
+%{_pixmapsdir}/xnee.png
+%{_pixmapsdir}/xnee.xpm
 %{_mandir}/man1/cnee.1*
 %{_mandir}/man1/xnee.1*
 %{_infodir}/cnee.info*
@@ -136,6 +161,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/pnee
 %{_libdir}/bonobo/servers/pnee.server
+%dir %{_datadir}/xnee/pixmaps
 %{_datadir}/xnee/pixmaps/pnee-*.png
 %{_mandir}/man1/pnee.1*
 %endif

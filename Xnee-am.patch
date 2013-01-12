@@ -1,0 +1,19 @@
+--- xnee-3.15/configure.in.orig	2012-12-22 17:25:00.000000000 +0100
++++ xnee-3.15/configure.in	2013-01-11 22:41:03.541706749 +0100
+@@ -262,7 +262,7 @@
+ 
+ 
+ AM_MAINTAINER_MODE
+-AM_CONFIG_HEADER(config.h)
++AC_CONFIG_HEADERS(config.h)
+ 
+ CLI_DIR=
+ LIB_DIR=
+@@ -360,7 +360,6 @@
+ 	
+     AC_ISC_POSIX
+     AC_PROG_CC
+-    AM_PROG_CC_STDC
+     AC_HEADER_STDC
+     AC_PATH_XTRA
+     GTK_ERR=0
