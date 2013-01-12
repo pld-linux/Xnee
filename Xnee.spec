@@ -4,13 +4,13 @@
 #
 # Conditional build:
 %bcond_with	doc	# documentation (broken, missing files)
-%bcond_without	gnome	# GNOME panel applet
+%bcond_with	gnome	# GNOME 2 panel applet (not ready for GNOME 3)
 #
 Summary:	Suite of programs that can record and replay user actions under X11
 Summary(pl.UTF-8):	Zestaw programów do nagrywania i odtwarzania akcji użytkownika pod X11
 Name:		Xnee
 Version:	3.15
-Release:	0.1
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnu.org/gnu/xnee/xnee-%{version}.tar.gz
@@ -32,6 +32,7 @@ BuildRequires:	xorg-lib-libXtst-devel
 %if %{with gnome}
 BuildRequires:	GConf2-devel >= 2.0
 BuildRequires:	gnome-panel-devel >= 2.0
+BuildRequires:	gnome-panel-devel < 3
 %endif
 %if %{with doc}
 BuildRequires:	ImageMagick
