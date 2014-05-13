@@ -9,12 +9,12 @@
 Summary:	Suite of programs that can record and replay user actions under X11
 Summary(pl.UTF-8):	Zestaw programów do nagrywania i odtwarzania akcji użytkownika pod X11
 Name:		Xnee
-Version:	3.18
+Version:	3.19
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnu.org/gnu/xnee/xnee-%{version}.tar.gz
-# Source0-md5:	2ffd7832026c871d0fb0f63e06c71519
+# Source0-md5:	560e8126950d8d4e7c30fc844d556482
 Patch0:		%{name}-info.patch
 Patch1:		%{name}-link.patch
 Patch2:		%{name}-am.patch
